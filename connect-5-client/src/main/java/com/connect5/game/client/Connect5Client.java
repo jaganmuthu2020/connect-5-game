@@ -34,7 +34,9 @@ public class Connect5Client {
 	}
 
 	/**
-	 * This method used to get the player name input and send the details to server as get service
+	 * This method used to get the player name input and send the details to server
+	 * as get service
+	 * 
 	 * @return
 	 * @throws GameException
 	 */
@@ -45,17 +47,19 @@ public class Connect5Client {
 			System.out.print("Please Enter your name:");
 			Scanner inputScan = new Scanner(System.in);
 			String name = inputScan.nextLine();
+			name = name.replaceAll("[^a-zA-Z0-9\\s+]", "");
 			StringBuffer requestURL = new StringBuffer(NAME_SERVER_URL).append("?name=").append(name);
 			player = connectServer(client, requestURL.toString());
 			System.out.println("Hello " + player.getName() + ", Your color is " + player.getColor());
 			return player;
 		} catch (IOException | InterruptedException e) {
 			throw new GameException(e.getMessage());
-		} 
+		}
 	}
 
 	/**
-	 * This method used to get check the game status and also get the input from player
+	 * This method used to get check the game status and also get the input from
+	 * player
 	 * 
 	 * @throws GameException
 	 */
@@ -64,7 +68,7 @@ public class Connect5Client {
 		Scanner scan = null;
 		try {
 			while (isGameInprgress(player)) {
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				if (!isSameStatus(player)) {
 					System.out.println();
 					System.out.println(player.getBoard());
@@ -78,8 +82,9 @@ public class Connect5Client {
 				} else if (player.getGameState().equals(GameState.READY)) {
 					if (player.isTurn()) {
 						System.out.print("It's your turn " + player.getName() + ", please enter column (1 - 9) :");
+						int coulmn = getPosition(scan);
 						requestURL = new StringBuffer(ID_SERVER_URL).append("?id=").append(player.getId())
-								.append("&column=" + getPosition(scan));
+								.append("&column=" + coulmn);
 						player = connectServer(client, requestURL.toString());
 					} else {
 						if (!isSameStatus(player)) {
@@ -92,8 +97,9 @@ public class Connect5Client {
 					if (!player.isDiscDropped()) {
 						System.out.print("Column " + player.getColumnPosition()
 								+ " is full!!! Please choose different column (0 - 9) :");
+						int column = getPosition(scan);
 						requestURL = new StringBuffer(ID_SERVER_URL).append("?id=").append(player.getId())
-								.append("&column=" + getPosition(scan));
+								.append("&column=" + column);
 						player = connectServer(client, requestURL.toString());
 					}
 				}
@@ -104,7 +110,7 @@ public class Connect5Client {
 			}
 		} catch (InterruptedException | IOException | GameException e) {
 			throw new GameException(e.getMessage());
-		} 
+		}
 	}
 
 	public void gameStatusUpdate() {
@@ -152,20 +158,23 @@ public class Connect5Client {
 		return false;
 	}
 
+	int newPositionValue=0;
+	@SuppressWarnings("resource")
 	private int getPosition(Scanner scan) {
-		int position = 1;
 		try {
 			scan = new Scanner(System.in);
-			position = scan.nextInt();
-			if (position < 1 || position > 9) {
-				System.out.println("Please enter the value between 1 to 9");
+			newPositionValue = scan.nextInt();
+			if (newPositionValue < 1 || newPositionValue > 9) {
+				System.out.print("Please enter the value between 1 to 9:");
 				getPosition(scan);
+			} else {
+				return newPositionValue;
 			}
 		} catch (InputMismatchException e) {
-			System.out.println("Please enter numeric value");
+			System.out.print("Please enter Numeric value between 1 to 9:");
 			getPosition(scan);
 		}
-		return position;
+		return newPositionValue;
 	}
 
 	private Player connectServer(HttpClient client, String requestURL)
@@ -188,7 +197,8 @@ public class Connect5Client {
 	}
 
 	/**
-	 * This method used to send keep alive request to server to inform that client is still active.
+	 * This method used to send keep alive request to server to inform that client
+	 * is still active.
 	 * 
 	 * @param client
 	 * @param requestURL
