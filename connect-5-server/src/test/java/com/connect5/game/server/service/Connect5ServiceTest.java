@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -197,6 +198,8 @@ class Connect5ServiceTest {
 	@Test
 	void testUpdateKeepAliveStatus() {
 		Player player = buildPlayer();
+		connect5Service.clientDisconnected=false;
+		player.setConnectionTime(new Date(System.currentTimeMillis() + 3600 * 1000));
 		Map<String, Player> players = new ConcurrentHashMap<String, Player>();
 		players.put(player.getId(), player);
 		when(connect5Repository.getPlayers()).thenReturn(players);
@@ -212,7 +215,7 @@ class Connect5ServiceTest {
 		players.put(player.getId(), player);
 		when(connect5Repository.getPlayers()).thenReturn(players);
 		String actual = connect5Service.updateKeepAliveStatus("325ce7c0-fd61-40aa-b9c3-2d83b73bfldb");
-		assertEquals("success", actual);
+		assertEquals("diconnected", actual);
 	}
 
 	@Test
