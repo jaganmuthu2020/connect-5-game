@@ -11,9 +11,10 @@ Guide
 - Server project is a Spring Boot application with Rest Controller to receiving the request from clients.
 - Run the Maven clean install for Client and Server project.
 - Please follow the below order to run the applicaiton .
-	- Run the Spring boot applicaiton in Server project
+	- Run the Spring boot applicaiton in Server.
 	- Clone the client project as two seprate projects for two players.
-	- Run the Java Main method in Connect5GamePlayer class.
+	- Run the Java Main method in Connect5GamePlayer class under client.
+	- Configured with Port 8888
 
 What you'll need
 

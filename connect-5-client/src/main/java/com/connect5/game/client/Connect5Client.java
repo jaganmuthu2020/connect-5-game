@@ -18,9 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Connect5Client {
 
-	private static final String NAME_SERVER_URL = "http://localhost:8080/connect5server/addplayer";
-	private static final String ID_SERVER_URL = "http://localhost:8080/connect5server/checkStatus";
-	private static final String SERVER_KEEP_ALIVE_REQUEST = "http://localhost:8080/connect5server/keepAlive";
+	private static final String NAME_SERVER_URL = "http://localhost:8888/connect5server/addplayer";
+	private static final String ID_SERVER_URL = "http://localhost:8888/connect5server/checkStatus";
+	private static final String SERVER_KEEP_ALIVE_REQUEST = "http://localhost:8888/connect5server/keepAlive";
 
 	HttpClient client = null;
 	ObjectMapper objectMapper = new ObjectMapper();
