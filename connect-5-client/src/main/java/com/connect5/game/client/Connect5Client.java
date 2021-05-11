@@ -135,7 +135,13 @@ public class Connect5Client {
 			while (isGameInprgress(player)) {
 				StringBuffer requestURL = new StringBuffer(SERVER_KEEP_ALIVE_REQUEST).append("?id=")
 						.append(player.getId());
-				connectServerForKeepAlive(client, requestURL.toString());
+				String keepAliveStatus = connectServerForKeepAlive(client, requestURL.toString());
+				if(keepAliveStatus.equals("diconnected")) {
+					player.setGameState(GameState.CLIENT_DISCONNECTED);
+					System.out.println();
+					System.out.println("Game Ended!!! Other player disconnected.");
+					return;
+				}
 				Thread.sleep(3000);
 			}
 		} catch (IOException | InterruptedException | GameException e) {
@@ -158,7 +164,8 @@ public class Connect5Client {
 		return false;
 	}
 
-	int newPositionValue=0;
+	int newPositionValue = 0;
+
 	@SuppressWarnings("resource")
 	private int getPosition(Scanner scan) {
 		try {
@@ -206,11 +213,13 @@ public class Connect5Client {
 	 * @throws InterruptedException
 	 * @throws GameException
 	 */
-	private void connectServerForKeepAlive(HttpClient client, String requestURL)
+	private String connectServerForKeepAlive(HttpClient client, String requestURL)
 			throws IOException, InterruptedException, GameException {
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(requestURL)).build();
 		HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-		if (response.statusCode() != 200) {
+		if (response.statusCode() == 200) {
+			return response.body();
+		} else {
 			throw new GameException("Server Disconnected");
 		}
 	}

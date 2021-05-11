@@ -149,6 +149,7 @@ public class Connect5Service {
 	}
 
 	public String updateKeepAliveStatus(String id) throws RuntimeException {
+		String keepAliveResponse = "success";
 		Map<String, Player> players = connect5Repository.getPlayers();
 
 		BiConsumer<String, Player> playerAction = new BiConsumer<String, Player>() {
@@ -170,7 +171,10 @@ public class Connect5Service {
 			}
 		};
 		players.forEach(playerAction);
-		return "success";
+		if(clientDisconnected) {
+			keepAliveResponse = "diconnected";
+		}
+		return keepAliveResponse;
 	}
 
 	public void checkGameStatusRemovePlayer() {

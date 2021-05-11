@@ -17,7 +17,7 @@ public class Connect5GamePlayer {
 			connect5Client.getDiscPositionAndCheckStatus();
 			connect5Client.gameStatusUpdate();
 		} catch (GameException e) {
-			System.out.print("Sorry. ");
+			System.out.print("Sorry! Game Ended.");
 			System.out.println(e.getMessage());
 			return;
 		}
