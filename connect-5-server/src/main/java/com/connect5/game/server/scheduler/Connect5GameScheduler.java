@@ -9,7 +9,7 @@ import com.connect5.game.server.service.Connect5Service;
 /**
  * 
  * The Connect5GameScheduler used to removed the players once the game is ended. 
- * This job is running for every 5 sec to check the status
+ * This job is running for every 5 seconds to check the status
  *
  */
 @Component

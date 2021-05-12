@@ -80,7 +80,7 @@ public class Connect5GameController {
 	public ResponseEntity<String> clientKeepAliveRequest(HttpServletRequest request, Model model) {
 		try {
 			String id = request.getParameter("id");
-			//log.debug("keepalive request reached for id:" + id);
+			log.debug("keepalive request reached for id:" + id);
 			String status = connect5Service.updateKeepAliveStatus(id);
 			return ResponseEntity.ok(status);
 		} catch (RuntimeException e) {
