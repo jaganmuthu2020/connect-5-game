@@ -138,9 +138,6 @@ public class Connect5Client {
 				String keepAliveStatus = connectServerForKeepAlive(client, requestURL.toString());
 				if (keepAliveStatus.equals("diconnected")) {
 					player.setGameState(GameState.CLIENT_DISCONNECTED);
-					// System.out.println();
-					// System.out.println("Game Ended!!! Other player disconnected.");
-					// return;
 				}
 				Thread.sleep(3000);
 			}
